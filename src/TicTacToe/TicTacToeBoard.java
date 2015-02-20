@@ -1,7 +1,8 @@
 package TicTacToe;
 
-import java.util.stream.*;
+//import java.util.stream.*;
 import java.util.ArrayList;
+
 
 
 
@@ -34,32 +35,58 @@ public class TicTacToeBoard {
 		this.size = size;
 		
 	}
+	public void setCell(TicTacToeValue value,int x, int y){
+		getCell(TicTacToePair.createPair(x,y)).setValue(value);
+	}
 	
-	public TicTacToeCell getCell(int x, int y){
+	public TicTacToeCell getCell(TicTacToePair location){
 		try {
-			ArrayList<TicTacToeValue> row = board.get(y);
-			return row.get(x);
+			ArrayList<TicTacToeCell> row = board.get(location.getElement1());
+			return row.get(location.getElement0());
 		}
 		catch(IndexOutOfBoundsException e){
-			TicTacToeCell edgeCase = new TicTacToeCell(TicTacToeValue.Edge);
+			TicTacToeCell edgeCase = new TicTacToeCell(TicTacToeValue.Edge,null,0,0);
 			return edgeCase;
 		}
 	}
-	
-//	private Array<TicTacToeValue>[8] adjacent(int x, int y){
-//		Array<TicTacToeValue>[8] squaresNextTo = {
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank,
-//				TicTacToeValue.Blank
-//		};
+	public TicTacToeResults getResult(TicTacToeCell currentCell){
 		
-		squaresNextTo[0] = board.
-		
-		return squaresNextTo;
+//			if(board.stream().flatMap( row -> stream.of(cell -> cell.matches(currentCell)).reduce(currentCell.getValue())){
+			if(false){  //Not ready for Prime Time!
+				if(currentCell.getValue() == TicTacToeValue.X)
+					return TicTacToeResults.WinnerX;
+				else
+					return TicTacToeResults.WinnerO;
+			}
+			else {
+				return TicTacToeResults.CatsGame;
+			}
+		}
+	public TicTacToeResults nfGetResults(){
+		for( ArrayList<TicTacToeCell> row : board){
+			for( TicTacToeCell cell : row){
+				if(cell.addLikeEntry(TicTacToeDirection.EastWest,cell)){
+					return cell.getWinnerType();
+				}
+				if(cell.addLikeEntry(TicTacToeDirection.NorthSouth,cell)){
+					return cell.getWinnerType();
+				}
+				if(cell.addLikeEntry(TicTacToeDirection.Diagonal,cell)){
+					return cell.getWinnerType();
+				}
+				
+			}
+		}
+		return TicTacToeResults.Unfinished;
 	}
+	public int size(){
+		return size;
+	}
+	
+
+	public ArrayList<ArrayList<TicTacToeCell>> getBoard() {
+		return board;
+	}
+	
+		
 }
