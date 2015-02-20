@@ -6,7 +6,7 @@ public class App {
 	
 	//TicTacToeAnalyzer1
 
-	public static void main(String args){
+	public static void main(String args[]){
 		System.out.println("show a sample board, normal size:\n\n");
 		
 		
@@ -19,9 +19,9 @@ public class App {
 			normalBoard.setCell(TicTacToeValue.X, 0, 1);
 			normalBoard.setCell(TicTacToeValue.X, 1, 1);
 			normalBoard.setCell(TicTacToeValue.X, 2, 1);
-	//		normalBoard.setCell(TicTacToeValue.O, 0, 2);
-	//		normalBoard.setCell(TicTacToeValue.O, 1, 2);
-	//		normalBoard.setCell(TicTacToeValue.O, 2, 2);
+			normalBoard.setCell(TicTacToeValue.O, 0, 2);
+			normalBoard.setCell(TicTacToeValue.O, 1, 2);
+			normalBoard.setCell(TicTacToeValue.O, 2, 2);
 	
 			for(ArrayList<TicTacToeCell> row : normalBoard.getBoard()){
 				String displayARow;

@@ -6,7 +6,6 @@ public class TicTacToeCell {
 	private TicTacToeValue value;
 	private int count = 0;
 	private boolean visited = false;
-//	private TicTacToeDirection direction;
 	private TicTacToeBoard theBoard;
 	private TicTacToePair location;
 	
@@ -24,7 +23,7 @@ public class TicTacToeCell {
 		this.value = value;
 	}
 	public boolean isBlank(){
-		return this.value == TicTacToeValue.Blank;
+		return this.value == TicTacToeValue.B;
 	}
 	public boolean isX(){
 		return this.value == TicTacToeValue.X;

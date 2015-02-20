@@ -24,7 +24,7 @@ public class TicTacToeBoard {
 			ArrayList<TicTacToeCell> row = new ArrayList<TicTacToeCell>(size);
 			int j = 0;
 			while(j < size){
-				row.add(new TicTacToeCell(TicTacToeValue.Blank,this,i,j));
+				row.add(new TicTacToeCell(TicTacToeValue.B,this,i,j));
 				j++;
 			}
 			board.add(row);
