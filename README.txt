@@ -1,0 +1,3 @@
+TicTacToeAnalyzer master_first branch
+
+This has the source I wrote when I first got this code working; it creates two boards: a "normal" TicTacToe board that's 3x3 and a 6x6 board, stuffs oin a bunch of values, than runs the nfGetResults function and displays its results. It does not implement the functional-programming version, nor does it use the object-oriented version that I developed later. I created this branch so that I could always refer back to my original version.
