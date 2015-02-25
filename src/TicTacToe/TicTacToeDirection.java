@@ -2,8 +2,11 @@ package TicTacToe;
 
 public enum TicTacToeDirection {
 	EastWest(0),
-	NorthSouth(1),
-	Diagonal(2);
+	WestEast(1),
+	NorthSouth(2),
+	SouthNorth(3),
+	DiagonalPlus(4),
+	DiagonalMinus(5);
 	
 	int value;
 	
