@@ -1,43 +1,38 @@
 package TicTacToe;
 
 
-public class TicTacToeCell {
+public class TicTacToeCell implements LikeFinder{
 	
 	private TicTacToeValue value;
-	private int countForAcross;
-	private int countForDown;
-	private int countForDiagonal;
-//	private boolean visitedDown = false;
-//	private boolean visitedAcross = false;
-//	private boolean visitedDiagonal = false;
 	private TicTacToeBoard theBoard;
 	private TicTacToePair location;
 	
+	public TicTacToeCell(){
+		//Don't allow this, force using the other construction
+	}
+	
 	public TicTacToeCell(TicTacToeValue value, TicTacToeBoard board, int x, int y){
-		countForAcross = 0;
-		countForDown = 0;
-		countForDiagonal = 0;
 		this.value = value;
 		this.theBoard = board;
 		this.location = TicTacToePair.createPair(x,y,board.size());
 	}
 
-	public int count(TicTacToeDirection direction){
-		int result = 0;
-		switch(direction){
-		case EastWest:
-			result = countForAcross;
-			break;
-		case NorthSouth:
-			result = countForDown;
-			break;
-		case DiagonalPlus:
-		case DiagonalMinus:
-			result = countForDiagonal;
-			break;
+	public TicTacToeResults getResults(TicTacToeResults winnerSoFar){
+		//If there are ANY blank cells then another move is possible, so it's not a CatsGame
+		//On the other hand, if a winner (X's or O's) HAS been found, the win is good inspite of there being blank cells 
+		if(isBlank() && winnerSoFar == TicTacToeResults.CatsGame){
+			winnerSoFar = TicTacToeResults.Unfinished;
 		}
-		return result;
+		return winnerSoFar;
 	}
+	public int getCount(TicTacToeDirection direction){
+		return 0; // do nothing
+	}
+
+	public void incrementCount(TicTacToeDirection direction){
+		; //do nothing
+	}
+	
 	public TicTacToeValue getValue(){ 
 		return this.value;
 	}
@@ -63,42 +58,17 @@ public class TicTacToeCell {
 		return location;
 	}
 	public TicTacToeResults getWinnerType(){
-//		if(count() == theBoard.size()){
-			if(isX()) return TicTacToeResults.WinnerX;
-			if(isO()) return TicTacToeResults.WinnerO;
-//		}
+		if(isX()) return TicTacToeResults.WinnerX;
+		if(isO()) return TicTacToeResults.WinnerO;
 		return TicTacToeResults.CatsGame;
 	}
-	public void incrementCount(TicTacToeDirection direction){
-		switch(direction){
-		case EastWest:
-			countForAcross++;
-			break;
-		case NorthSouth:
-			countForDown++;
-			break;
-		case DiagonalPlus:
-		case DiagonalMinus:
-			countForDiagonal++;
-			break;
-		}
-	}
-//	public void visitDown(){
-//		this.visitedDown = true;
-//	}
-//	public void visitAcross(){
-//		this.visitedAcross = true;
-//	}
-//	public void visitDiagonal(){
-//		this.visitedDiagonal = true;
-//	}
 	
 	public boolean addLikeEntry(TicTacToeDirection direction, TicTacToeCell rootCell){
 		//this function is re-entrant, so we track the rootCell count to make sure we don't
 		//enter an infinite loop.
 		if(this.matches(rootCell.value)){
 			rootCell.incrementCount(direction);
-			if(rootCell.count(direction) == theBoard.size()){
+			if(rootCell.getCount(direction) == theBoard.size()){
 				return true;  // returns true because this only happens when the count equals the full size; implies a win!
 			}
 		

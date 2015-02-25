@@ -51,9 +51,9 @@ public class App {
 			newBoard.setCell(TicTacToeValue.O, 5, 0);
 			newBoard.setCell(TicTacToeValue.X, 0, 1);
 			newBoard.setCell(TicTacToeValue.X, 1, 1);
-			//newBoard.setCell(TicTacToeValue.X, 2, 1);
-			newBoard.setCell(TicTacToeValue.O, 3, 1);
-			newBoard.setCell(TicTacToeValue.O, 4, 1);
+			newBoard.setCell(TicTacToeValue.X, 2, 1);
+			//newBoard.setCell(TicTacToeValue.O, 3, 1);
+			//newBoard.setCell(TicTacToeValue.O, 4, 1);
 			newBoard.setCell(TicTacToeValue.O, 5, 1);
 			newBoard.setCell(TicTacToeValue.O, 0, 2);
 			newBoard.setCell(TicTacToeValue.X, 1, 2);
@@ -63,7 +63,7 @@ public class App {
 			newBoard.setCell(TicTacToeValue.O, 5, 2);
 			newBoard.setCell(TicTacToeValue.O, 0, 3);
 			newBoard.setCell(TicTacToeValue.X, 1, 3);
-			newBoard.setCell(TicTacToeValue.X, 2, 3);
+			newBoard.setCell(TicTacToeValue.O, 2, 3);
 			newBoard.setCell(TicTacToeValue.X, 3, 3);
 			newBoard.setCell(TicTacToeValue.O, 4, 3);
 			newBoard.setCell(TicTacToeValue.X, 5, 3);
