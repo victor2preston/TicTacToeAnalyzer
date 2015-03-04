@@ -12,8 +12,31 @@ public abstract class CornerCell extends TicTacToeCell {
 	public TicTacToeResults getResults(TicTacToeResults winnerSoFar){
 		return super.getResults(winnerSoFar);
 	}
+	public TicTacToeCell fGetResults(TicTacToeResults winnerSoFar){
+		return super.fGetResults(winnerSoFar);
+	}
+	public TicTacToeCell fnGetResults(TicTacToeCell rootCell){
+		return super.fnGetResults(rootCell);
+	}
+	public TicTacToeCell fnGetEntries(){
+		return super.fnGetEntries();
+	}
+	//Override
+	public void resetCount(){
+		countForAcross= 0;
+		countForDown = 0;
+		countForDiagonal = 0;
+	}
 	
 	public int getCount(TicTacToeDirection direction) {
+			if(direction == null){
+				int maxCount = countForAcross;
+				if(countForDown > maxCount)
+					maxCount = countForDown;
+				if(countForDiagonal > maxCount)
+					maxCount = countForDiagonal;
+				return maxCount;
+			}
 			int result = 0;
 			switch(direction){
 			case EastWest:

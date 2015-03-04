@@ -2,8 +2,10 @@ package TicTacToe;
 
 //import java.util.stream.*;
 import java.util.ArrayList;
-
-
+import java.util.Optional;
+import java.util.function.BinaryOperator;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 public class TicTacToeBoard {
@@ -12,6 +14,8 @@ public class TicTacToeBoard {
 
 	private ArrayList<ArrayList<TicTacToeCell>> board;
 
+//	public final static TicTacToeCell nullCell = new TicTacToeCell(TicTacToeValue.Null,null,0,0);
+
 	public TicTacToeBoard(int size) throws Exception {
 		if(size > TicTacToeMaxSize.MaxSize.value()){
 			throw new Exception("Size is too big!");
@@ -19,71 +23,74 @@ public class TicTacToeBoard {
 		this.size = size;
 		board = new ArrayList<ArrayList<TicTacToeCell>>();
 		
-		int i = 0;
-		while(i < size){
-			
-			ArrayList<TicTacToeCell> row = new ArrayList<TicTacToeCell>(size);
-			int j = 0;
-			while(j < size){
-				if(i == 0){
-					if(j == 0)
-						row.add(new LeftCornerCell(TicTacToeValue.B,this,j,i));
-					else if(j == size - 1)
-						row.add(new RightCornerCell(TicTacToeValue.B,this,j,i));
-					else
-						row.add(new UpperEdgeCell(TicTacToeValue.B,this,j,i));	
-				}
-				else if(j == 0)
-					row.add(new LeftEdgeCell(TicTacToeValue.B,this,j,i));
-				else //everything else is just regular:
-					row.add(new TicTacToeCell(TicTacToeValue.B,this,j,i));
-					
-				j++;
-			}
-			board.add(row);
-			i++;
+		IntStream.range(0, size).forEach( i -> board.add(new ArrayList<TicTacToeCell>()));
+		IntStream.range(0, size).forEach(i -> IntStream.range(0, size).forEach(j -> board.get(j).add(addCellDependingOnLocation(j,i))));
+		
+	//	IntStream.range(0, size).forEach(i -> board.get(i).stream().forEach(j -> this.addCellDependingOnLocation(i,j)));
+				
+				
+	}
+	private TicTacToeCell  addCellDependingOnLocation(int x, int y){
+		if(x == 0){
+			if( y == 0)
+				return new LeftCornerCell(TicTacToeValue.B,this,x,y);
+			else
+				return new LeftEdgeCell(TicTacToeValue.B,this,x,y);
 		}
-		
-		
-		
+		else if(y == 0){
+			if( x == size - 1)
+				return new RightCornerCell(TicTacToeValue.B,this,x,y);
+			else
+				return new UpperEdgeCell(TicTacToeValue.B,this,x,y);
+		}
+		else
+			return new TicTacToeCell(TicTacToeValue.B,this,x,y);
 	}
 	public void setCell(TicTacToeValue value,int x, int y){
-//		if(x >= size || y >= size){
-//			throw new IndexOutOfBoundsException("Out of bounds exception");
-//		}
 		board.get(y).get(x).setValue(value);
-//		getCell(x,y).setValue(value);
 	}
 	
 	public TicTacToeCell getCell(TicTacToePair pair){
 		return getCell(pair.getElement0(),pair.getElement1());
 	}
 	private TicTacToeCell getCell(int x, int y){
-//		try {
-//			
 			return board.get(y).get(x);
-//			ArrayList<TicTacToeCell> row = board.get(location.getElement1());
-//			return row.get(location.getElement0());
-//		}
-//		catch(IndexOutOfBoundsException e){
-//			TicTacToeCell edgeCase = new TicTacToeCell(TicTacToeValue.Edge,null,0,0);
-//			return edgeCase;
-//		}
 	}
-	public TicTacToeResults getResult(TicTacToeCell currentCell){
-		
-//			if(board.stream().flatMap( row -> stream.of(cell -> cell.matches(currentCell)).reduce(currentCell.getValue())){
-			if(false){  //Not ready for Prime Time!
-				if(currentCell.getValue() == TicTacToeValue.X)
-					return TicTacToeResults.WinnerX;
-				else
-					return TicTacToeResults.WinnerO;
+	public TicTacToeResults fnGetResults(){
+
+			reset();
+			TicTacToeResults winner = TicTacToeResults.CatsGame;
+			TicTacToeCell nullCell = new TicTacToeCell(TicTacToeValue.Null,this,0,0); 
+			try{
+				TicTacToeCell resultCell = 
+						board.stream().flatMap(row -> row.stream())
+							.map(TicTacToeCell::fnGetEntries) //cell -> cell.fnGetEntries())
+							.reduce(nullCell, TicTacToeCell::reduceFunction); // (cell0,cell1) -> reduceFunction(cell0,cell1)); //(cell0,cell1) -> (cell1.getCount(null) == board.size() ? cell1 : nullCell));
+				//if(resultCell.isPresent()){
+					System.out.println("resultCell = " + resultCell.toString() + ", value = " + resultCell.getValue().toString());
+					winner = resultCell.getWinnerType();
+				//}
+			}catch(Exception e){
+				System.out.println("Exception: " + e.getMessage());
 			}
-			else {
-				return TicTacToeResults.CatsGame;
-			}
+			return winner;
 		}
-	public TicTacToeResults nfGetResults(){
+	public TicTacToeResults ffnGetResults(){
+
+		reset();
+		TicTacToeResults winner = TicTacToeResults.CatsGame;
+		TicTacToeCell nullCell = new TicTacToeCell(TicTacToeValue.Null,this,0,0); 
+		try{
+			TicTacToeCell resultCell = 
+					board.stream().flatMap(row -> row.stream())
+						.reduce(nullCell,TicTacToeCell::reduceFunction,(BinaryOperator)TicTacToeCell::ffnGetEntries); // nullCell,(cell0,cell1) -> (cell1.getCount(null) == board.size() ? cell1 : nullCell),(cell0,cell1) -> cell0.fnGetEntries());
+			winner = resultCell.getWinnerType();
+		}catch(Exception e){
+			System.out.println("Exception: " + e.getMessage());
+		}
+		return winner;
+	}
+	public TicTacToeResults fGetResults(){
 		TicTacToeResults winner = TicTacToeResults.CatsGame;
 		for( ArrayList<TicTacToeCell> row : board){
 			for( TicTacToeCell cell : row){
@@ -91,6 +98,15 @@ public class TicTacToeBoard {
 			}
 		}
 		return winner;
+	}
+	public TicTacToeResults getResults(){
+		TicTacToeResults winner = TicTacToeResults.CatsGame;
+		for( ArrayList<TicTacToeCell> row : board){
+			for( TicTacToeCell cell : row){
+				winner = cell.getResults(winner);
+			}
+		}
+		return TicTacToeResults.Unfinished;
 	}
 //	public TicTacToeResults nfGetResults(){
 //		TicTacToeResults winner = TicTacToeResults.CatsGame;
@@ -144,6 +160,12 @@ public class TicTacToeBoard {
 	public ArrayList<ArrayList<TicTacToeCell>> getBoard() {
 		return board;
 	}
-	
-		
+
+	public ArrayList<TicTacToeCell> getRow(int j){
+		return board.get(j);
+	}
+
+	private void reset(){
+		board.stream().flatMap(row -> row.stream()).forEach(cell -> cell.resetCount());
+	}
 }

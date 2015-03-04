@@ -36,11 +36,21 @@ public class App {
 			}
 			System.out.println("Now the result:\n");
 			
-			TicTacToeResults results = normalBoard.nfGetResults();
+			TicTacToeResults results = normalBoard.getResults();
 
 			System.out.println(results.toString());
 			
+			
+			TicTacToeResults functionalResults = normalBoard.fnGetResults();
 
+			System.out.println("\nAnd the functional result:\n");
+			System.out.println(functionalResults.toString());
+			
+			TicTacToeResults functionalResultsAgain = normalBoard.ffnGetResults();
+
+			System.out.println("\nAnd the alternative functional result:\n");
+			System.out.println(functionalResultsAgain.toString());
+			
 			TicTacToeBoard newBoard = new TicTacToeBoard(6);
 			
 			newBoard.setCell(TicTacToeValue.O, 0, 0);
@@ -93,10 +103,15 @@ public class App {
 			}
 			System.out.println("Now the result:\n");
 			
-			TicTacToeResults results2 = newBoard.nfGetResults();
+			TicTacToeResults results2 = newBoard.getResults();
 
 			System.out.println(results2.toString());
-		
+
+			TicTacToeResults functionalResults2 = newBoard.fnGetResults();
+
+			System.out.println("\nAnd the functional result:\n");
+			System.out.println(functionalResults2.toString());
+			
 		}catch(Exception e){
 			System.out.println("Exception: " + e.getMessage());
 		}

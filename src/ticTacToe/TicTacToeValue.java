@@ -5,7 +5,8 @@ public enum TicTacToeValue {
 	X(1),
 	O(2),
 	Edge(3),
-	B(0);
+	B(0),
+	Null(4);
 	
 	
 	private int value;
@@ -24,6 +25,12 @@ public enum TicTacToeValue {
 			break;
 		case 2:
 			result = "O";
+			break;
+		case 3:
+			result = "Edge";
+			break;
+		case 4:
+			result = "Null";
 			break;
 		default:
 			result = "bad";

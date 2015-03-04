@@ -1,11 +1,14 @@
 package TicTacToe;
 
+import java.util.Optional;
+
 
 public class TicTacToeCell implements LikeFinder{
 	
 	private TicTacToeValue value;
 	private TicTacToeBoard theBoard;
 	private TicTacToePair location;
+	
 	
 	public TicTacToeCell(){
 		//Don't allow this, force using the other construction
@@ -14,8 +17,10 @@ public class TicTacToeCell implements LikeFinder{
 	public TicTacToeCell(TicTacToeValue value, TicTacToeBoard board, int x, int y){
 		this.value = value;
 		this.theBoard = board;
-		this.location = TicTacToePair.createPair(x,y,board.size());
+		if(board != null)
+			this.location = TicTacToePair.createPair(x,y,board.size());
 	}
+
 
 	public TicTacToeResults getResults(TicTacToeResults winnerSoFar){
 		//If there are ANY blank cells then another move is possible, so it's not a CatsGame
@@ -24,6 +29,28 @@ public class TicTacToeCell implements LikeFinder{
 			winnerSoFar = TicTacToeResults.Unfinished;
 		}
 		return winnerSoFar;
+	}
+	public TicTacToeCell fGetResults(TicTacToeResults winnerSoFar){
+		//If there are ANY blank cells then another move is possible, so it's not a CatsGame
+		//On the other hand, if a winner (X's or O's) HAS been found, the win is good inspite of there being blank cells 
+		if(isBlank() && winnerSoFar == TicTacToeResults.CatsGame){
+			winnerSoFar = TicTacToeResults.Unfinished;
+		}
+		return this;
+	}
+	public TicTacToeCell fnGetResults(TicTacToeCell rootCell){
+		//If there are ANY blank cells then another move is possible, so it's not a CatsGame
+		//On the other hand, if a winner (X's or O's) HAS been found, the win is good inspite of there being blank cells 
+		if(isBlank() && rootCell.isX()){
+			rootCell.setValue(TicTacToeValue.B);
+		}
+		return this;
+	}
+	public TicTacToeCell fnGetEntries(){
+		return this;
+	}
+	public TicTacToeCell ffnGetEntries(Object cell0,Object cell1){
+		return fnGetEntries();
 	}
 	public int getCount(TicTacToeDirection direction){
 		return 0; // do nothing
@@ -74,7 +101,6 @@ public class TicTacToeCell implements LikeFinder{
 		
 			TicTacToePair newLocation = this.location.pairCremented(direction, theBoard.size());
 			if(newLocation.getElement0() < theBoard.size() && newLocation.getElement1() < theBoard.size()){
-				//theBoard.stream().filter((value != TicTacToeValue.B) && matches(this).addLikeEntry(directoin,rootCell);
 				if(!theBoard.getCell(newLocation).isBlank()){
 					if(theBoard.getCell(newLocation).matches(this)){
 						return theBoard.getCell(newLocation).addLikeEntry(direction,rootCell);
@@ -83,5 +109,17 @@ public class TicTacToeCell implements LikeFinder{
 			}
 		}
 		return false;
+	}
+	public void resetCount(){}
+	public TicTacToeBoard getBoard(){
+		return this.theBoard;
+	}
+	static public TicTacToeCell reduceFunction(TicTacToeCell arg0, TicTacToeCell arg1){
+		System.out.println("Output of reduceFunction for: " + arg0.toString() + " and " + arg1.toString() );
+		System.out.println("nullCell = " + arg0.toString() + " value: " + arg0.getValue().toString());
+		
+		TicTacToeCell resultCell = (arg0.getBoard().size() == arg0.getCount(null) ? arg1 : arg0);
+		System.out.println(resultCell.getValue() + " count: " + resultCell.getCount(null));
+		return resultCell;
 	}
 }

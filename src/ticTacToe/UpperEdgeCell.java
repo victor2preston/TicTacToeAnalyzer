@@ -13,4 +13,17 @@ public class UpperEdgeCell extends EdgeCell {
 		
 	}
 
+	public TicTacToeCell fGetResults(TicTacToeResults winnerSoFar){
+		if(addLikeEntry(TicTacToeDirection.NorthSouth,this)){
+			winnerSoFar = getWinnerType();
+		}
+		return this;
+		
+	}
+
+	public TicTacToeCell fnGetEntries(){
+		addLikeEntry(TicTacToeDirection.NorthSouth,this);
+		return super.fnGetEntries();
+		
+	}
 }

@@ -12,6 +12,17 @@ abstract public class EdgeCell extends TicTacToeCell {
 	public TicTacToeResults getResults(TicTacToeResults winnerSoFar){
 		return super.getResults(winnerSoFar);
 	}
+	public TicTacToeCell fGetResults(TicTacToeResults winnerSoFar){
+		return super.fGetResults(winnerSoFar);
+	}
+	public TicTacToeCell fnGetResults(TicTacToeCell rootCell){
+		return super.fnGetResults(rootCell);
+	}
+	
+	//Override
+	public TicTacToeCell fnGetEntries(){
+		return super.fnGetEntries();
+	}
 	
 	//Override
 	public int getCount(TicTacToeDirection direction) {
@@ -20,5 +31,9 @@ abstract public class EdgeCell extends TicTacToeCell {
 	//Override
 	public void incrementCount(TicTacToeDirection direction){
 		count++;
+	}
+	//Override
+	public void resetCount(){
+		count = 0;
 	}
 }
