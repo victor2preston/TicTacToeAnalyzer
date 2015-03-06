@@ -18,7 +18,7 @@ public class App {
 			normalBoard.setCell(TicTacToeValue.O, 2, 0);
 			normalBoard.setCell(TicTacToeValue.X, 0, 1);
 			normalBoard.setCell(TicTacToeValue.X, 1, 1);
-			//normalBoard.setCell(TicTacToeValue.X, 2, 1);
+			normalBoard.setCell(TicTacToeValue.X, 2, 1);
 			normalBoard.setCell(TicTacToeValue.O, 0, 2);
 			normalBoard.setCell(TicTacToeValue.O, 1, 2);
 			normalBoard.setCell(TicTacToeValue.O, 2, 2);
@@ -29,11 +29,15 @@ public class App {
 				for(TicTacToeCell cell : row){
 					
 					displayARow += cell.getValue();
+					displayARow += cell.getLocation().getElement0();
+					displayARow += ",";
+					displayARow += cell.getLocation().getElement1();
 					displayARow += " | ";
 				}
 				displayARow += "\n";
 				System.out.println(displayARow);
 			}
+		
 			System.out.println("Now the result:\n");
 			
 			TicTacToeResults results = normalBoard.getResults();
@@ -62,8 +66,8 @@ public class App {
 			newBoard.setCell(TicTacToeValue.X, 0, 1);
 			newBoard.setCell(TicTacToeValue.X, 1, 1);
 			newBoard.setCell(TicTacToeValue.X, 2, 1);
-			//newBoard.setCell(TicTacToeValue.O, 3, 1);
-			//newBoard.setCell(TicTacToeValue.O, 4, 1);
+			newBoard.setCell(TicTacToeValue.O, 3, 1);
+			newBoard.setCell(TicTacToeValue.O, 4, 1);
 			newBoard.setCell(TicTacToeValue.O, 5, 1);
 			newBoard.setCell(TicTacToeValue.O, 0, 2);
 			newBoard.setCell(TicTacToeValue.X, 1, 2);

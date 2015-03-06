@@ -1,6 +1,7 @@
 package TicTacToe;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 
 public class TicTacToeCell implements LikeFinder{
@@ -75,6 +76,9 @@ public class TicTacToeCell implements LikeFinder{
 	public boolean isO(){
 		return this.value == TicTacToeValue.O;
 	}
+	public boolean isNull(){
+		return this.value == TicTacToeValue.Null;
+	}
 	public boolean matches(TicTacToeValue match){
 		return this.value == match;
 	}
@@ -87,6 +91,7 @@ public class TicTacToeCell implements LikeFinder{
 	public TicTacToeResults getWinnerType(){
 		if(isX()) return TicTacToeResults.WinnerX;
 		if(isO()) return TicTacToeResults.WinnerO;
+		if(isNull()) return TicTacToeResults.Unfinished;
 		return TicTacToeResults.CatsGame;
 	}
 	
@@ -114,12 +119,21 @@ public class TicTacToeCell implements LikeFinder{
 	public TicTacToeBoard getBoard(){
 		return this.theBoard;
 	}
+	public TicTacToeCell ffnReduceFunction(Object cell0,Object cell1){
+		return fnGetEntries();
+	}
 	static public TicTacToeCell reduceFunction(TicTacToeCell arg0, TicTacToeCell arg1){
 		System.out.println("Output of reduceFunction for: " + arg0.toString() + " and " + arg1.toString() );
 		System.out.println("nullCell = " + arg0.toString() + " value: " + arg0.getValue().toString());
 		
-		TicTacToeCell resultCell = (arg0.getBoard().size() == arg0.getCount(null) ? arg1 : arg0);
+		TicTacToeCell resultCell = (arg0.getBoard().size() == arg1.getCount(null) ? arg1 : arg0);
 		System.out.println(resultCell.getValue() + " count: " + resultCell.getCount(null));
 		return resultCell;
+	}
+	
+	static public TicTacToeCell fnBiFunc(TicTacToeCell cell0, TicTacToeCell cell1){ //BiFunction<TicTacToeCell,TicTacToeCell,TicTacToeCell> bi, TicTacToeCell cell0, TicTacToeCell cell1){
+		//TicTacToeCell temp = new TicTacToeCell(TicTacToeValue.Null,null,0,0);
+		cell1.fnGetEntries();
+		return cell1; //(TicTacToeCell)temp.apply(cell0, cell1);
 	}
 }

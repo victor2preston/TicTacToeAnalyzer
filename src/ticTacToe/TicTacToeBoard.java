@@ -24,7 +24,7 @@ public class TicTacToeBoard {
 		board = new ArrayList<ArrayList<TicTacToeCell>>();
 		
 		IntStream.range(0, size).forEach( i -> board.add(new ArrayList<TicTacToeCell>()));
-		IntStream.range(0, size).forEach(i -> IntStream.range(0, size).forEach(j -> board.get(j).add(addCellDependingOnLocation(j,i))));
+		IntStream.range(0, size).forEach(i -> IntStream.range(0, size).forEach(j -> board.get(j).add(addCellDependingOnLocation(i,j))));
 		
 	//	IntStream.range(0, size).forEach(i -> board.get(i).stream().forEach(j -> this.addCellDependingOnLocation(i,j)));
 				
@@ -83,7 +83,7 @@ public class TicTacToeBoard {
 		try{
 			TicTacToeCell resultCell = 
 					board.stream().flatMap(row -> row.stream())
-						.reduce(nullCell,TicTacToeCell::reduceFunction,(BinaryOperator)TicTacToeCell::ffnGetEntries); // nullCell,(cell0,cell1) -> (cell1.getCount(null) == board.size() ? cell1 : nullCell),(cell0,cell1) -> cell0.fnGetEntries());
+						.reduce(nullCell,TicTacToeCell::fnBiFunc,TicTacToeCell::reduceFunction); // nullCell,(cell0,cell1) -> (cell1.getCount(null) == board.size() ? cell1 : nullCell),(cell0,cell1) -> cell0.fnGetEntries());
 			winner = resultCell.getWinnerType();
 		}catch(Exception e){
 			System.out.println("Exception: " + e.getMessage());
