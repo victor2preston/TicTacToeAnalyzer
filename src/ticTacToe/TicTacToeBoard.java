@@ -99,6 +99,15 @@ public class TicTacToeBoard {
 		}
 		return winner;
 	}
+	public Optional<TicTacToeCell> nextMove(TicTacToeValue value){
+		//TicTacToePair nextPair();
+		if(value == TicTacToeValue.O || value == TicTacToeValue.X){
+			//TrialCell trialCell = new TrialCell(this.getCell(pair).getValue(), this.getLocation());
+			return board.stream().flatMap(row -> row.stream()).filter(cell -> cell.isBlank()).reduce((cell0,cell1) -> cell0.tryCell() ? cell0 : cell1);
+		}
+		return Optional.of(null); //<TicTacToeCell>.of() ; //new Optional<TicTacToeCell>(TicTacToeValue.B,TicTacToePair.createPair(0,0,this.size));
+		
+	}
 	public TicTacToeResults getResults(){
 		TicTacToeResults winner = TicTacToeResults.CatsGame;
 		for( ArrayList<TicTacToeCell> row : board){

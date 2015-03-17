@@ -88,6 +88,9 @@ public class TicTacToeCell implements LikeFinder{
 	public TicTacToePair getLocation(){
 		return location;
 	}
+	public void setLocation(TicTacToePair location){
+		this.location = location;
+	}
 	public TicTacToeResults getWinnerType(){
 		if(isX()) return TicTacToeResults.WinnerX;
 		if(isO()) return TicTacToeResults.WinnerO;
@@ -118,6 +121,11 @@ public class TicTacToeCell implements LikeFinder{
 	public void resetCount(){}
 	public TicTacToeBoard getBoard(){
 		return this.theBoard;
+	}
+	public boolean tryCell(TicTacToeValue valueToMatch){
+		TrialCell trialCell = new TrialCell(valueToMatch,this.getLocation());
+		addLikeEntry(TicTacToeDirection.EastWest,trialCell);
+		return false;
 	}
 	public TicTacToeCell ffnReduceFunction(Object cell0,Object cell1){
 		return fnGetEntries();
