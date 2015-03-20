@@ -1,6 +1,7 @@
 package TicTacToe;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class App {
 	
@@ -14,8 +15,8 @@ public class App {
 			TicTacToeBoard normalBoard = new TicTacToeBoard(3);
 			
 			normalBoard.setCell(TicTacToeValue.O, 0, 0);
-			normalBoard.setCell(TicTacToeValue.X, 1, 0);
-			normalBoard.setCell(TicTacToeValue.O, 2, 0);
+			normalBoard.setCell(TicTacToeValue.O, 1, 0);
+			//normalBoard.setCell(TicTacToeValue.O, 2, 0);
 			normalBoard.setCell(TicTacToeValue.X, 0, 1);
 			normalBoard.setCell(TicTacToeValue.X, 1, 1);
 			normalBoard.setCell(TicTacToeValue.X, 2, 1);
@@ -43,6 +44,17 @@ public class App {
 			TicTacToeResults results = normalBoard.getResults();
 
 			System.out.println(results.toString());
+			
+			TicTacToeValue tryVal = TicTacToeValue.O;
+			Optional<TicTacToeCell> newCell = normalBoard.nextMove(tryVal);
+			if(newCell.isPresent()){
+				System.out.println("\nThe next cell is:" + newCell.get().getLocation().getElement0() + "," + newCell.get().getLocation().getElement1());
+				System.out.println("and the value is: " + newCell.get().getValue().toString());
+				newCell.get().setValue(tryVal);
+			}
+			else{
+				System.out.println("No next move found");
+			}
 			
 			
 			TicTacToeResults functionalResults = normalBoard.fnGetResults();

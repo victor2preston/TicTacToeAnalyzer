@@ -2,11 +2,12 @@ package TicTacToe;
 
 
 public enum TicTacToeValue {
+	B(0),
 	X(1),
 	O(2),
 	Edge(3),
-	B(0),
-	Null(4);
+	Neither(4),
+	Null(5);
 	
 	
 	private int value;
@@ -30,8 +31,12 @@ public enum TicTacToeValue {
 			result = "Edge";
 			break;
 		case 4:
+			result = "Neither";
+			break;
+		case 5:
 			result = "Null";
 			break;
+		
 		default:
 			result = "bad";
 		}

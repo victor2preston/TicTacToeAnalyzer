@@ -1,5 +1,7 @@
 package TicTacToe;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -106,15 +108,17 @@ public class TicTacToeCell implements LikeFinder{
 			if(rootCell.getCount(direction) == theBoard.size()){
 				return true;  // returns true because this only happens when the count equals the full size; implies a win!
 			}
-		
-			TicTacToePair newLocation = this.location.pairCremented(direction, theBoard.size());
-			if(newLocation.getElement0() < theBoard.size() && newLocation.getElement1() < theBoard.size()){
-				if(!theBoard.getCell(newLocation).isBlank()){
-					if(theBoard.getCell(newLocation).matches(this)){
-						return theBoard.getCell(newLocation).addLikeEntry(direction,rootCell);
-					}
-				}
+			TicTacToePair newLocation; 
+			try{
+				newLocation = this.location.pairCremented(direction, theBoard.size());
+			}catch(IndexOutOfBoundsException e){
+				return false;
 			}
+			//if(!theBoard.getCell(newLocation).isBlank()){
+				if(theBoard.getCell(newLocation).matches(this)){
+					return theBoard.getCell(newLocation).addLikeEntry(direction,rootCell);
+				}
+			//}
 		}
 		return false;
 	}
@@ -122,10 +126,26 @@ public class TicTacToeCell implements LikeFinder{
 	public TicTacToeBoard getBoard(){
 		return this.theBoard;
 	}
-	public boolean tryCell(TicTacToeValue valueToMatch){
+	public int tryCell(TicTacToeValue valueToMatch){
 		TrialCell trialCell = new TrialCell(valueToMatch,this.getLocation());
+		List<Integer> allCounts = new ArrayList<Integer>();
+		
 		addLikeEntry(TicTacToeDirection.EastWest,trialCell);
-		return false;
+		addLikeEntry(TicTacToeDirection.WestEast,trialCell);
+		allCounts.add(trialCell.getCount(TicTacToeDirection.EastWest));
+
+		addLikeEntry(TicTacToeDirection.NorthSouth,trialCell);
+		addLikeEntry(TicTacToeDirection.SouthNorth,trialCell);
+		allCounts.add(trialCell.getCount(TicTacToeDirection.NorthSouth));
+
+		addLikeEntry(TicTacToeDirection.DiagonalPlus,trialCell);
+		addLikeEntry(TicTacToeDirection.DiagonalMinus,trialCell);
+		allCounts.add(trialCell.getCount(TicTacToeDirection.DiagonalPlus));
+		Optional<Integer> result = allCounts.stream().max(null);
+		if(result.isPresent())
+			return result.get();
+		else
+			return 0;
 	}
 	public TicTacToeCell ffnReduceFunction(Object cell0,Object cell1){
 		return fnGetEntries();
