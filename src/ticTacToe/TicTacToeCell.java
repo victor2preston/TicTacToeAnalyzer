@@ -90,6 +90,10 @@ public class TicTacToeCell implements LikeFinder{
 	public TicTacToePair getLocation(){
 		return location;
 	}
+	public TicTacToeDirection directionType(int whichRow){
+		if(getLocation().getElement0())
+		return getLocation().getElement0().equals(whichRow);
+	}
 	public void setLocation(TicTacToePair location){
 		this.location = location;
 	}
