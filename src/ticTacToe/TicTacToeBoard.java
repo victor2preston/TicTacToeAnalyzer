@@ -1,3 +1,5 @@
+
+
 package TicTacToe;
 
 //import java.util.stream.*;
@@ -47,7 +49,7 @@ public class TicTacToeBoard {
 			this.value = value;
 		}
 	}
-	static public int decideState(List<TicTacToeCell> list){
+	static public TicTacToeValue decideState(List<TicTacToeCell> list){
 		TicTacToeValue valueX = TicTacToeValue.X;
 		TicTacToeValue valueO = TicTacToeValue.O;
 		
@@ -288,24 +290,22 @@ public class TicTacToeBoard {
 				.filter(cell -> cell.getValue().equals(value))
 				.count();
 	}
-	public void decideStates() {
-		//set state for each of the rows:
-		getBoard().stream().forEach(row -> getRowState().stream().forEach(state -> state.decideState(row)));
-		//then for each of the columns:
-		getBoard().stream().flatMap(row -> row.stream()).
-//		getRowState().stream().forEach(state -> getBoard().stream().flatMap(row -> row.stream()).forEach(cell -> state.setValue(cell)));
-	}
+//	public void decideStates() {
+//		//set state for each of the rows:
+//		getBoard().stream().forEach(row -> getRowState().stream().forEach(state -> state.decideState(row)));
+//		//then for each of the columns:
+//		getBoard().stream().flatMap(row -> row.stream()).
+////		getRowState().stream().forEach(state -> getBoard().stream().flatMap(row -> row.stream()).forEach(cell -> state.setValue(cell)));
+//	}
 	public void setStates(){
 		
-		List<TicTacToeCell> arrayOfCells = getBoard().stream().collect(Collectors.groupingBy(TicTacToeCell::isRow)); //,Collectors.reducing(TicTacToeValue.Null,State::decideState,));
-		getRowState().decideState(arrayOfCells);
+		Map<Integer,List<TicTacToeCell>> arrayOfRows = getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeRow))); //compute(arg0, TicTacToeCell::decideState)
+		arrayOfRows.forEach(cellSet -> rowState.add(decideState(cellSet)));
+		
+		arrayOfCells.addAll(getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeColummn)));
+		decideState(arrayOfCells);
 		getRowState().stream().forEach(state -> state.decideState());
 		
 		
-		decideState(rowState[0],0);
-		decideState(rowState[0],0);
-		decideState(rowState[0],0);
-		decideState(rowState[0],0);
-		decideState(rowState[0],0);
 	}
 }
