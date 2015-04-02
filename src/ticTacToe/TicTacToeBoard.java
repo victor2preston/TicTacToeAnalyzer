@@ -298,13 +298,13 @@ public class TicTacToeBoard {
 ////		getRowState().stream().forEach(state -> getBoard().stream().flatMap(row -> row.stream()).forEach(cell -> state.setValue(cell)));
 //	}
 	public void setStates(){
-		
-		Map<Integer,List<TicTacToeCell>> arrayOfRows = getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeRow))); //compute(arg0, TicTacToeCell::decideState)
+		TicTacToeValue state = TicTacToeValue.B;
+		Map<Integer,List<TicTacToeCell>> arrayOfRows = getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeRow)).forEach(entry -> System.println("key: " + entry.getKey() + "value: " + entry.getValue())); //compute(arg0, TicTacToeCell::decideState)
 		arrayOfRows.forEach(cellSet -> rowState.add(decideState(cellSet)));
 		
-		arrayOfCells.addAll(getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeColummn)));
-		decideState(arrayOfCells);
-		getRowState().stream().forEach(state -> state.decideState());
+		//arrayOfCells.addAll(getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeColummn)));
+		//decideState(arrayOfCells);
+		//getRowState().stream().forEach(state -> state.decideState());
 		
 		
 	}
