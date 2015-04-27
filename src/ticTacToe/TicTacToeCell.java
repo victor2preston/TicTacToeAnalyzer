@@ -1,9 +1,9 @@
-package TicTacToe;
+package ticTacToe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
 
 
 public class TicTacToeCell implements LikeFinder{
@@ -94,7 +94,7 @@ public class TicTacToeCell implements LikeFinder{
 		return this.location.getElement1();
 	}
 	public Integer /*TicTacToeDirection*/ typeColumn(){
-		return this.location.getElement0();;
+		return this.location.getElement0();
 	}
 	public void setLocation(TicTacToePair location){
 		this.location = location;
@@ -128,6 +128,26 @@ public class TicTacToeCell implements LikeFinder{
 		}
 		return false;
 	}
+	// This creates a collection in a certain direction of all the cells that either are blank or have a matching value
+	public Collection<TicTacToeCell> makeLikeCollection(Collection<TicTacToeCell> collection, TicTacToeDirection direction, TicTacToeValue valueToMatch){
+		if(this.matches(TicTacToeValue.B) || (this.matches(valueToMatch))){
+				collection.add(this);
+			try{
+				TicTacToePair newLocation = this.location.pairCremented(direction, theBoard.size());
+				theBoard.getCell(newLocation).makeLikeCollection(collection,direction,valueToMatch);
+			}catch(IndexOutOfBoundsException e){
+			    //do nothing, i.e., just stop
+			}
+		}
+		return collection;	
+	}
+	public Collection<TicTacToeCell> makeLikeCollection(Collection<TicTacToeCell> collection, TicTacToeValue valueToMatch) {
+		return collection;
+	}
+	public boolean hasRow(){
+		return truel;
+	}
+	
 	public void resetCount(){}
 	public TicTacToeBoard getBoard(){
 		return this.theBoard;

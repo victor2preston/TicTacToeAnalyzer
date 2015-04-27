@@ -1,5 +1,7 @@
 package TicTacToe;
 
+import java.util.Collection;
+
 public class LeftCornerCell extends CornerCell{
 	
 	LeftCornerCell(TicTacToeValue value,TicTacToeBoard board,int x, int y){
@@ -38,6 +40,9 @@ public class LeftCornerCell extends CornerCell{
 		addLikeEntry(TicTacToeDirection.NorthSouth,this);
 		addLikeEntry(TicTacToeDirection.DiagonalPlus,this);
 		return super.fnGetEntries();
+	}
+	public Collection<TicTacToeCell> makeLikeCollection(Collection<TicTacToeCell> collection, TicTacToeValue valueToMatch){
+		return makeLikeCollection(collection,TicTacToeDirection.DiagonalPlus,valueToMatch);
 	}
 
 }

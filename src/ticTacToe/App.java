@@ -1,9 +1,16 @@
-package TicTacToe;
+package ticTacToe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.StringTokenizer;
 
 public class App {
+	static int bufferSize = 1024;
+	static byte[] inputBuffer = new byte[bufferSize];
+	static TicTacToeValue valueOfPlayer = TicTacToeValue.B;
+	static TicTacToeValue valueOfMachine = TicTacToeValue.B;
+	static TicTacToeBoard thePlayBoard;
 	
 	//TicTacToeAnalyzer1
 
@@ -45,16 +52,18 @@ public class App {
 
 			System.out.println(results.toString());
 			
-			TicTacToeValue tryVal = TicTacToeValue.O;
-			Optional<TicTacToeCell> newCell = normalBoard.nextMove(tryVal);
-			if(newCell.isPresent()){
-				System.out.println("\nThe next cell is:" + newCell.get().getLocation().getElement0() + "," + newCell.get().getLocation().getElement1());
-				System.out.println("and the value is: " + newCell.get().getValue().toString());
-				newCell.get().setValue(tryVal);
-			}
-			else{
-				System.out.println("No next move found");
-			}
+			play();
+			
+//			TicTacToeValue tryVal = TicTacToeValue.O;
+//			Optional<TicTacToeCell> newCell = normalBoard.nextMove(tryVal);
+//			if(newCell.isPresent()){
+//				System.out.println("\nThe next cell is:" + newCell.get().getLocation().getElement0() + "," + newCell.get().getLocation().getElement1());
+//				System.out.println("and the value is: " + newCell.get().getValue().toString());
+//				newCell.get().setValue(tryVal);
+//			}
+//			else{
+//				System.out.println("No next move found");
+//			}
 			
 			
 			TicTacToeResults functionalResults = normalBoard.fnGetResults();
@@ -132,5 +141,118 @@ public class App {
 			System.out.println("Exception: " + e.getMessage());
 		}
 		
+	}
+	// returns true if the user types in a ^C, meaning they want to stop!
+	public boolean parseInputBuffer(TicTacToeValue value, int x, int y){
+		try{
+			boolean doLeave = false;
+			String inputStr = new String(this.inputBuffer);
+			StringTokenizer inputTokens = new StringTokenizer(inputStr);
+			if(inputTokens.countTokens() >= 3){ // If there are 3 or more tokens, interpret the first one as the symbol to use, then get x & y, ignore the rest.
+				String firstToken =  inputTokens.nextToken();
+				switch (firstToken) {
+					case "O":
+					case "o":
+						value = TicTacToeValue.O;
+						break;
+					case "X":
+					case "x":
+						value = TicTacToeValue.X;
+						break;
+					case "^C":
+						doLeave = true;
+						break;
+					default:
+						value = TicTacToeValue.B;
+						throw new NumberFormatException();
+						System.out.println("Inavlid input");
+					
+				}
+				if(doLeave)
+					return true;
+				if(inputTokens >=2){ // If there are only 2 tokens, interpret them as x & y
+					x = Integer.parseInt(inputTokens.nextToken());
+					y = Integer.parseInt(inputTokens.nextToken());
+				}
+			}
+			return false;
+		}
+		catch(NumberFormatException e){
+			System.out.println("Invalid input; " + e.getMessage());
+		}
+	}
+	public void play(TicTacToeBoard board){
+		boolean play = true;
+		boolean continuePlay = true;
+		while(play){
+			System.out.println("Do you want to be an X or an O?");
+			System.in.read(inputBuffer,0,bufferSize);
+			String inputString = new String(inputBuffer);
+			StringTokenizer startToken = new StringTokenizer(inputString);
+			if(startToken.equals("^C)"){
+				play = false;
+				continuePlay = false;
+			if(startToken.equals("X")){
+				play = false;
+				valueOfPlayer = TicTacToeValue.X;
+				valueOfMachine = TicTacToeValue.O;
+			}
+			else if(startToken.equals("O")){
+				play = false;
+				valueOfPlayer = TicTacToeValue.O;
+				valueOfMachine = TicTacToeValue.X;
+			}
+		}
+
+		play = continuePlay;
+		while(play){
+			System.out.println("What size board do you want to play on (choose a number between 4 and 1000)?");
+			System.in.read(inputBuffer,0,bufferSize);
+			String inputString = new String(inputBuffer);
+			//StringTokenizer startToken = new StringTokenizer(inputString);
+			
+			try{
+				int size = Integer.parseInt(inputString);
+				thePlayBoard = new TicTacToeBoard(size);
+			}catch(NumberFormatException e){
+				System.out.println("YOu did not enter anything the systems could interpret as a number!");
+			}
+		}
+		while(play){
+			try {
+				System.in.read(inputBuffer,0,bufferSize);
+				TicTacToeValue valueToMatch = valueOfPlayer;
+				int x = 0;
+				int y = 0;
+				if(parseInputBuffer(valueToMatch,x,y)){
+					play = false;
+					break;
+				}
+				if(thePlayBoard.setCell(valueToMatch,x,y)){
+					TicTacToeResults results = board.ffnGetResults();
+					System.out.println("Result so far is: " + results.ToString());
+					if(results == TicTacToeResults.WinnerX || results == TicTacToeResults.WinnerO)
+						play = false;
+					// now the computer will make a move:
+					valueToMatch = valueOfMachine;
+					if(thePlayBoard.findMove(valueToMatch,x,y)){
+						System.out.println("The system wants to apply " + valueToMatch + " to the cell: " + x + "," + y);
+						
+						System.in.read(inputBuffer,0,bufferSize);
+						int ignorex,ignorey;
+						if(parseInputBuffer(valueToMatch,ignorex,ignorey))
+							play = false;
+						thePlayBoard.setCell(valueOfMachine, x, y);
+					}else{
+						
+					}
+				}else{
+					System.out.println("try again");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

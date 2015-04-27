@@ -1,5 +1,7 @@
 package TicTacToe;
 
+import java.util.Collection;
+
 abstract public class EdgeCell extends TicTacToeCell {
 
 	private int count= 0;
