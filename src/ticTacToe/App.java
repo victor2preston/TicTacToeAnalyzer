@@ -228,23 +228,25 @@ public class App {
 					play = false;
 					break;
 				}
-				if(thePlayBoard.setCell(valueToMatch,x,y)){
-					TicTacToeResults results = board.ffnGetResults();
-					System.out.println("Result so far is: " + results.ToString());
-					if(results == TicTacToeResults.WinnerX || results == TicTacToeResults.WinnerO)
-						play = false;
-					// now the computer will make a move:
-					valueToMatch = valueOfMachine;
-					if(thePlayBoard.findMove(valueToMatch,x,y)){
-						System.out.println("The system wants to apply " + valueToMatch + " to the cell: " + x + "," + y);
-						
-						System.in.read(inputBuffer,0,bufferSize);
-						int ignorex,ignorey;
-						if(parseInputBuffer(valueToMatch,ignorex,ignorey))
+				if(thePlayBoard.isLegalMove(valueToMatch, x, y)){
+					if(thePlayBoard.setCell(valueToMatch,x,y)){
+						TicTacToeResults results = board.ffnGetResults();
+						System.out.println("Result so far is: " + results.ToString());
+						if(results == TicTacToeResults.WinnerX || results == TicTacToeResults.WinnerO)
 							play = false;
-						thePlayBoard.setCell(valueOfMachine, x, y);
-					}else{
-						
+						// now the computer will make a move:
+						valueToMatch = valueOfMachine;
+						if(thePlayBoard.findMove(valueToMatch,x,y)){
+							System.out.println("The system wants to apply " + valueToMatch + " to the cell: " + x + "," + y);
+							
+							System.in.read(inputBuffer,0,bufferSize);
+							int ignorex,ignorey;
+							if(parseInputBuffer(valueToMatch,ignorex,ignorey))
+								play = false;
+							thePlayBoard.setCell(valueOfMachine, x, y);
+						}else{
+							
+						}
 					}
 				}else{
 					System.out.println("try again");

@@ -99,7 +99,7 @@ public class TicTacToeBoard {
 		
 	//	IntStream.range(0, size).forEach(i -> board.get(i).stream().forEach(j -> this.addCellDependingOnLocation(i,j)));
 
-		makeEchelonList();
+		makeEchelonList(size);
 		establishState();
 				
 	}
@@ -120,11 +120,11 @@ public class TicTacToeBoard {
 			return new TicTacToeCell(TicTacToeValue.B,this,x,y);
 	}
 	//Add an echelon for each possible row, column, or diagonal
-	private void makeEchelonList(){
-		board.stream().forEach(row -> echelons.add( new TicTacToeEchelon(TicTacToeDirection.EastWest)));
-		board.stream().flatMap(row -> row.stream()).filter(cell -> cell.getLocation().getElement0() == 0).forEach(row -> echelons.add( new TicTacToeEchelon(TicTacToeDirection.NorthSouth)));
-		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalPlus));
-		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalMinus));
+	private void makeEchelonList(int size){
+		board.stream().forEach(row -> echelons.add( new TicTacToeEchelon(TicTacToeDirection.EastWest,size)));
+		board.stream().flatMap(row -> row.stream()).filter(cell -> cell.getLocation().getElement0() == 0).forEach(row -> echelons.add( new TicTacToeEchelon(TicTacToeDirection.NorthSouth,size)));
+		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalPlus,size));
+		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalMinus,size));
 	}
 	public List<TicTacToeEchelon> getEchelonList(){
 		return echelons;
@@ -140,6 +140,12 @@ public class TicTacToeBoard {
 			return false;
 		}
 		return true;
+	}
+	public boolean isLegalMove(TicTacToeValue valueToMatch, int x, int y){
+		boolean isLegal = getEchelonList().stream()
+							.filter(echelon -> echelon.isRow(x) || echelon.isColumn(y) || echelon.isDiagonal(x,y))
+							.allMatch(echelon -> (echelon.matches(valueToMatch) || echelon.getValue() == TicTacToeValue.B));
+		return isLegal;
 	}
 	
 	public TicTacToeCell getCell(TicTacToePair pair){
@@ -215,7 +221,12 @@ public class TicTacToeBoard {
 	public Optional<Integer> findMove(TicTacToeValue valueToMatch,int x, int y){
 		//TicTacToePair nextPair();
 		if(valueToMatch == TicTacToeValue.O || valueToMatch == TicTacToeValue.X){
-			board.getE
+			Optional matchingEchelonWithHighestCount = getEchelonList().stream().filter(echelon -> echelon.matches(valueToMatch)).max((echelon1,echelon2) -> echelon1.getCount() > echelon2.getCount());
+			if(matchingEchelonWithHighestCount.isPresent()){
+				x = 
+			}else{
+				
+			}
 			board.stream().flatMap(row -> row.stream()).filter(cell -> cell.matches(valueToMatch)).count();
 			
 			//TrialCell trialCell = new TrialCell(this.getCell(pair).getValue(), this.getLocation());
@@ -321,19 +332,19 @@ public class TicTacToeBoard {
 //		getBoard().stream().flatMap(row -> row.stream()).
 ////		getRowState().stream().forEach(state -> getBoard().stream().flatMap(row -> row.stream()).forEach(cell -> state.setValue(cell)));
 //	}
-	public void setStates(){
-		TicTacToeValue state = TicTacToeValue.B;
-		Map<Integer,List<TicTacToeCell>> arrayOfRows = getBoard().stream()
-															.flatMap(row -> row.stream())
-															.collect(Collectors.groupingBy(TicTacToeCell::typeRow));
-//															.
-//															.forEach(entry -> System.println("key: " + entry.getKey() + "value: " + entry.getValue())); //compute(arg0, TicTacToeCell::decideState)
-		arrayOfRows.forEach(cellSet -> rowState.add(decideState(cellSet)));
-		
-		//arrayOfCells.addAll(getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeColummn)));
-		//decideState(arrayOfCells);
-		//getRowState().stream().forEach(state -> state.decideState());
-		
-		
-	}
+//	public void setStates(){
+//		TicTacToeValue state = TicTacToeValue.B;
+//		Map<Integer,List<TicTacToeCell>> arrayOfRows = getBoard().stream()
+//															.flatMap(row -> row.stream())
+//															.collect(Collectors.groupingBy(TicTacToeCell::typeRow));
+////															.
+////															.forEach(entry -> System.println("key: " + entry.getKey() + "value: " + entry.getValue())); //compute(arg0, TicTacToeCell::decideState)
+//		arrayOfRows.forEach(cellSet -> rowState.add(decideState(cellSet)));
+//		
+//		//arrayOfCells.addAll(getBoard().stream().flatMap(row -> row.stream()).collect(Collectors.groupingBy(TicTacToeCell::typeColummn)));
+//		//decideState(arrayOfCells);
+//		//getRowState().stream().forEach(state -> state.decideState());
+//		
+//		
+//	}
 }
