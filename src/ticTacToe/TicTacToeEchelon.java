@@ -1,9 +1,13 @@
 package ticTacToe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TicTacToeEchelon {
 	private TicTacToeDirection direction;
 	private TicTacToeValue value;
 	private int size;
+	private List<TicTacToeCell> echelon;
 	
 	//location of the "root" cell:
 	private TicTacToePair location;
@@ -14,6 +18,10 @@ public class TicTacToeEchelon {
 		this.direction = direction;
 		this.value = TicTacToeValue.B;
 		this.size = size;
+		this.echelon = new ArrayList<TicTacToeCell>();
+	}
+	public List<TicTacToecell> getList(){
+		return echelon;
 	}
 	
 	public int getCount(){
@@ -52,6 +60,7 @@ public class TicTacToeEchelon {
 			return true;
 		return false;
 	}
+	
 	public boolean matches(TicTacToeValue valueToMatch){
 		return this.value == valueToMatch;
 	}

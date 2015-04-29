@@ -1,5 +1,5 @@
 package ticTacToe;
 
-public class AllreadySetException extends Exception {
+public class AllreadySetException extends RuntimeException {
 
 }

@@ -18,124 +18,126 @@ public class App {
 		System.out.println("show a sample board, normal size:\n\n");
 		
 		
+
 		try {
-			TicTacToeBoard normalBoard = new TicTacToeBoard(3);
-			
-			normalBoard.setCell(TicTacToeValue.O, 0, 0);
-			normalBoard.setCell(TicTacToeValue.O, 1, 0);
-			//normalBoard.setCell(TicTacToeValue.O, 2, 0);
-			normalBoard.setCell(TicTacToeValue.X, 0, 1);
-			normalBoard.setCell(TicTacToeValue.X, 1, 1);
-			normalBoard.setCell(TicTacToeValue.X, 2, 1);
-			normalBoard.setCell(TicTacToeValue.O, 0, 2);
-			normalBoard.setCell(TicTacToeValue.O, 1, 2);
-			normalBoard.setCell(TicTacToeValue.O, 2, 2);
-	
-			for(ArrayList<TicTacToeCell> row : normalBoard.getBoard()){
-				String displayARow;
-				displayARow = "| ";
-				for(TicTacToeCell cell : row){
-					
-					displayARow += cell.getValue();
-					displayARow += cell.getLocation().getElement0();
-					displayARow += ",";
-					displayARow += cell.getLocation().getElement1();
-					displayARow += " | ";
-				}
-				displayARow += "\n";
-				System.out.println(displayARow);
-			}
-		
-			System.out.println("Now the result:\n");
-			
-			TicTacToeResults results = normalBoard.getResults();
-
-			System.out.println(results.toString());
-			
 			play();
-			
-//			TicTacToeValue tryVal = TicTacToeValue.O;
-//			Optional<TicTacToeCell> newCell = normalBoard.nextMove(tryVal);
-//			if(newCell.isPresent()){
-//				System.out.println("\nThe next cell is:" + newCell.get().getLocation().getElement0() + "," + newCell.get().getLocation().getElement1());
-//				System.out.println("and the value is: " + newCell.get().getValue().toString());
-//				newCell.get().setValue(tryVal);
+
+			//			TicTacToeBoard normalBoard = new TicTacToeBoard(3);
+//			
+//			normalBoard.setCell(TicTacToeValue.O, 0, 0);
+//			normalBoard.setCell(TicTacToeValue.O, 1, 0);
+//			//normalBoard.setCell(TicTacToeValue.O, 2, 0);
+//			normalBoard.setCell(TicTacToeValue.X, 0, 1);
+//			normalBoard.setCell(TicTacToeValue.X, 1, 1);
+//			normalBoard.setCell(TicTacToeValue.X, 2, 1);
+//			normalBoard.setCell(TicTacToeValue.O, 0, 2);
+//			normalBoard.setCell(TicTacToeValue.O, 1, 2);
+//			normalBoard.setCell(TicTacToeValue.O, 2, 2);
+//	
+//			for(ArrayList<TicTacToeCell> row : normalBoard.getBoard()){
+//				String displayARow;
+//				displayARow = "| ";
+//				for(TicTacToeCell cell : row){
+//					
+//					displayARow += cell.getValue();
+//					displayARow += cell.getLocation().getElement0();
+//					displayARow += ",";
+//					displayARow += cell.getLocation().getElement1();
+//					displayARow += " | ";
+//				}
+//				displayARow += "\n";
+//				System.out.println(displayARow);
 //			}
-//			else{
-//				System.out.println("No next move found");
+//		
+//			System.out.println("Now the result:\n");
+//			
+//			TicTacToeResults results = normalBoard.getResults();
+//
+//			System.out.println(results.toString());
+//			
+//			
+////			TicTacToeValue tryVal = TicTacToeValue.O;
+////			Optional<TicTacToeCell> newCell = normalBoard.nextMove(tryVal);
+////			if(newCell.isPresent()){
+////				System.out.println("\nThe next cell is:" + newCell.get().getLocation().getElement0() + "," + newCell.get().getLocation().getElement1());
+////				System.out.println("and the value is: " + newCell.get().getValue().toString());
+////				newCell.get().setValue(tryVal);
+////			}
+////			else{
+////				System.out.println("No next move found");
+////			}
+//			
+//			
+//			TicTacToeResults functionalResults = normalBoard.fnGetResults();
+//
+//			System.out.println("\nAnd the functional result:\n");
+//			System.out.println(functionalResults.toString());
+//			
+//			TicTacToeResults functionalResultsAgain = normalBoard.ffnGetResults();
+//
+//			System.out.println("\nAnd the alternative functional result:\n");
+//			System.out.println(functionalResultsAgain.toString());
+//			
+//			TicTacToeBoard newBoard = new TicTacToeBoard(6);
+//			
+//			newBoard.setCell(TicTacToeValue.O, 0, 0);
+//			newBoard.setCell(TicTacToeValue.X, 1, 0);
+//			newBoard.setCell(TicTacToeValue.O, 2, 0);
+//			newBoard.setCell(TicTacToeValue.O, 3, 0);
+//			newBoard.setCell(TicTacToeValue.O, 4, 0);
+//			newBoard.setCell(TicTacToeValue.O, 5, 0);
+//			newBoard.setCell(TicTacToeValue.X, 0, 1);
+//			newBoard.setCell(TicTacToeValue.X, 1, 1);
+//			newBoard.setCell(TicTacToeValue.X, 2, 1);
+//			newBoard.setCell(TicTacToeValue.O, 3, 1);
+//			newBoard.setCell(TicTacToeValue.O, 4, 1);
+//			newBoard.setCell(TicTacToeValue.O, 5, 1);
+//			newBoard.setCell(TicTacToeValue.O, 0, 2);
+//			newBoard.setCell(TicTacToeValue.X, 1, 2);
+//			newBoard.setCell(TicTacToeValue.X, 2, 2);
+//			newBoard.setCell(TicTacToeValue.O, 3, 2);
+//			newBoard.setCell(TicTacToeValue.O, 4, 2);
+//			newBoard.setCell(TicTacToeValue.O, 5, 2);
+//			newBoard.setCell(TicTacToeValue.O, 0, 3);
+//			newBoard.setCell(TicTacToeValue.X, 1, 3);
+//			newBoard.setCell(TicTacToeValue.O, 2, 3);
+//			newBoard.setCell(TicTacToeValue.X, 3, 3);
+//			newBoard.setCell(TicTacToeValue.O, 4, 3);
+//			newBoard.setCell(TicTacToeValue.X, 5, 3);
+//			newBoard.setCell(TicTacToeValue.O, 0, 4);
+//			newBoard.setCell(TicTacToeValue.O, 1, 4);
+//			newBoard.setCell(TicTacToeValue.O, 2, 4);
+//			newBoard.setCell(TicTacToeValue.X, 3, 4);
+//			newBoard.setCell(TicTacToeValue.X, 4, 4);
+//			newBoard.setCell(TicTacToeValue.O, 5, 4);
+//			newBoard.setCell(TicTacToeValue.O, 0, 5);
+//			newBoard.setCell(TicTacToeValue.O, 1, 5);
+//			newBoard.setCell(TicTacToeValue.O, 2, 5);
+//			newBoard.setCell(TicTacToeValue.O, 3, 5);
+//			newBoard.setCell(TicTacToeValue.O, 4, 5);
+//			newBoard.setCell(TicTacToeValue.X, 5, 5);
+//	
+//			for(ArrayList<TicTacToeCell> row : newBoard.getBoard()){
+//				String displayARow;
+//				displayARow = "| ";
+//				for(TicTacToeCell cell : row){
+//					
+//					displayARow += cell.getValue();
+//					displayARow += " | ";
+//				}
+//				displayARow += "\n";
+//				System.out.println(displayARow);
 //			}
-			
-			
-			TicTacToeResults functionalResults = normalBoard.fnGetResults();
-
-			System.out.println("\nAnd the functional result:\n");
-			System.out.println(functionalResults.toString());
-			
-			TicTacToeResults functionalResultsAgain = normalBoard.ffnGetResults();
-
-			System.out.println("\nAnd the alternative functional result:\n");
-			System.out.println(functionalResultsAgain.toString());
-			
-			TicTacToeBoard newBoard = new TicTacToeBoard(6);
-			
-			newBoard.setCell(TicTacToeValue.O, 0, 0);
-			newBoard.setCell(TicTacToeValue.X, 1, 0);
-			newBoard.setCell(TicTacToeValue.O, 2, 0);
-			newBoard.setCell(TicTacToeValue.O, 3, 0);
-			newBoard.setCell(TicTacToeValue.O, 4, 0);
-			newBoard.setCell(TicTacToeValue.O, 5, 0);
-			newBoard.setCell(TicTacToeValue.X, 0, 1);
-			newBoard.setCell(TicTacToeValue.X, 1, 1);
-			newBoard.setCell(TicTacToeValue.X, 2, 1);
-			newBoard.setCell(TicTacToeValue.O, 3, 1);
-			newBoard.setCell(TicTacToeValue.O, 4, 1);
-			newBoard.setCell(TicTacToeValue.O, 5, 1);
-			newBoard.setCell(TicTacToeValue.O, 0, 2);
-			newBoard.setCell(TicTacToeValue.X, 1, 2);
-			newBoard.setCell(TicTacToeValue.X, 2, 2);
-			newBoard.setCell(TicTacToeValue.O, 3, 2);
-			newBoard.setCell(TicTacToeValue.O, 4, 2);
-			newBoard.setCell(TicTacToeValue.O, 5, 2);
-			newBoard.setCell(TicTacToeValue.O, 0, 3);
-			newBoard.setCell(TicTacToeValue.X, 1, 3);
-			newBoard.setCell(TicTacToeValue.O, 2, 3);
-			newBoard.setCell(TicTacToeValue.X, 3, 3);
-			newBoard.setCell(TicTacToeValue.O, 4, 3);
-			newBoard.setCell(TicTacToeValue.X, 5, 3);
-			newBoard.setCell(TicTacToeValue.O, 0, 4);
-			newBoard.setCell(TicTacToeValue.O, 1, 4);
-			newBoard.setCell(TicTacToeValue.O, 2, 4);
-			newBoard.setCell(TicTacToeValue.X, 3, 4);
-			newBoard.setCell(TicTacToeValue.X, 4, 4);
-			newBoard.setCell(TicTacToeValue.O, 5, 4);
-			newBoard.setCell(TicTacToeValue.O, 0, 5);
-			newBoard.setCell(TicTacToeValue.O, 1, 5);
-			newBoard.setCell(TicTacToeValue.O, 2, 5);
-			newBoard.setCell(TicTacToeValue.O, 3, 5);
-			newBoard.setCell(TicTacToeValue.O, 4, 5);
-			newBoard.setCell(TicTacToeValue.X, 5, 5);
-	
-			for(ArrayList<TicTacToeCell> row : newBoard.getBoard()){
-				String displayARow;
-				displayARow = "| ";
-				for(TicTacToeCell cell : row){
-					
-					displayARow += cell.getValue();
-					displayARow += " | ";
-				}
-				displayARow += "\n";
-				System.out.println(displayARow);
-			}
-			System.out.println("Now the result:\n");
-			
-			TicTacToeResults results2 = newBoard.getResults();
-
-			System.out.println(results2.toString());
-
-			TicTacToeResults functionalResults2 = newBoard.fnGetResults();
-
-			System.out.println("\nAnd the functional result:\n");
-			System.out.println(functionalResults2.toString());
+//			System.out.println("Now the result:\n");
+//			
+//			TicTacToeResults results2 = newBoard.getResults();
+//
+//			System.out.println(results2.toString());
+//
+//			TicTacToeResults functionalResults2 = newBoard.fnGetResults();
+//
+//			System.out.println("\nAnd the functional result:\n");
+//			System.out.println(functionalResults2.toString());
 			
 		}catch(Exception e){
 			System.out.println("Exception: " + e.getMessage());
@@ -143,11 +145,10 @@ public class App {
 		
 	}
 	// returns true if the user types in a ^C, meaning they want to stop!
-	public boolean parseInputBuffer(TicTacToeValue value, int x, int y){
+	public static boolean parseInputBuffer(TicTacToeValue value, int x, int y){
 		try{
 			boolean doLeave = false;
-			String inputStr = new String(this.inputBuffer);
-			StringTokenizer inputTokens = new StringTokenizer(inputStr);
+			StringTokenizer inputTokens = new StringTokenizer(new String(inputBuffer));
 			if(inputTokens.countTokens() >= 3){ // If there are 3 or more tokens, interpret the first one as the symbol to use, then get x & y, ignore the rest.
 				String firstToken =  inputTokens.nextToken();
 				switch (firstToken) {
@@ -170,7 +171,7 @@ public class App {
 				}
 				if(doLeave)
 					return true;
-				if(inputTokens >=2){ // If there are only 2 tokens, interpret them as x & y
+				if(inputTokens.countTokens() >=2){ // If there are only 2 tokens, interpret them as x & y
 					x = Integer.parseInt(inputTokens.nextToken());
 					y = Integer.parseInt(inputTokens.nextToken());
 				}
@@ -181,15 +182,28 @@ public class App {
 			System.out.println("Invalid input; " + e.getMessage());
 		}
 	}
-	public void play(TicTacToeBoard board){
+	public static void play(){
 		boolean play = true;
 		boolean continuePlay = true;
+		while(play){
+			System.out.println("What size board do you want to play on (choose a number between 4 and 1000)?");
+			System.in.read(inputBuffer,0,bufferSize);
+			
+			try{
+				int size = Integer.parseInt(new String(inputBuffer));
+				thePlayBoard = new TicTacToeBoard(size);
+				play = false;
+			}catch(NumberFormatException e){
+				System.out.println("YOu did not enter anything the systems could interpret as a number!");
+			}
+		}
+		play = continuePlay;
 		while(play){
 			System.out.println("Do you want to be an X or an O?");
 			System.in.read(inputBuffer,0,bufferSize);
 			String inputString = new String(inputBuffer);
-			StringTokenizer startToken = new StringTokenizer(inputString);
-			if(startToken.equals("^C)"){
+			StringTokenizer startToken = new StringTokenizer(new String(inputBuffer));
+			if(startToken.equals("^C")){
 				play = false;
 				continuePlay = false;
 			if(startToken.equals("X")){
@@ -206,19 +220,6 @@ public class App {
 
 		play = continuePlay;
 		while(play){
-			System.out.println("What size board do you want to play on (choose a number between 4 and 1000)?");
-			System.in.read(inputBuffer,0,bufferSize);
-			String inputString = new String(inputBuffer);
-			//StringTokenizer startToken = new StringTokenizer(inputString);
-			
-			try{
-				int size = Integer.parseInt(inputString);
-				thePlayBoard = new TicTacToeBoard(size);
-			}catch(NumberFormatException e){
-				System.out.println("YOu did not enter anything the systems could interpret as a number!");
-			}
-		}
-		while(play){
 			try {
 				System.in.read(inputBuffer,0,bufferSize);
 				TicTacToeValue valueToMatch = valueOfPlayer;
@@ -230,7 +231,7 @@ public class App {
 				}
 				if(thePlayBoard.isLegalMove(valueToMatch, x, y)){
 					if(thePlayBoard.setCell(valueToMatch,x,y)){
-						TicTacToeResults results = board.ffnGetResults();
+						TicTacToeResults results = thePlayBoard.ffnGetResults();
 						System.out.println("Result so far is: " + results.ToString());
 						if(results == TicTacToeResults.WinnerX || results == TicTacToeResults.WinnerO)
 							play = false;
@@ -238,14 +239,8 @@ public class App {
 						valueToMatch = valueOfMachine;
 						if(thePlayBoard.findMove(valueToMatch,x,y)){
 							System.out.println("The system wants to apply " + valueToMatch + " to the cell: " + x + "," + y);
-							
-							System.in.read(inputBuffer,0,bufferSize);
-							int ignorex,ignorey;
-							if(parseInputBuffer(valueToMatch,ignorex,ignorey))
-								play = false;
 							thePlayBoard.setCell(valueOfMachine, x, y);
-						}else{
-							
+							thePlayBoard.display();
 						}
 					}
 				}else{
