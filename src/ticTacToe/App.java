@@ -1,8 +1,6 @@
 package ticTacToe;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.StringTokenizer;
 
 public class App {
@@ -165,8 +163,8 @@ public class App {
 						break;
 					default:
 						value = TicTacToeValue.B;
+						System.out.println("Invalid input");
 						throw new NumberFormatException();
-						System.out.println("Inavlid input");
 					
 				}
 				if(doLeave)
@@ -176,36 +174,50 @@ public class App {
 					y = Integer.parseInt(inputTokens.nextToken());
 				}
 			}
-			return false;
 		}
 		catch(NumberFormatException e){
 			System.out.println("Invalid input; " + e.getMessage());
 		}
+		return false;
 	}
 	public static void play(){
 		boolean play = true;
 		boolean continuePlay = true;
 		while(play){
 			System.out.println("What size board do you want to play on (choose a number between 4 and 1000)?");
-			System.in.read(inputBuffer,0,bufferSize);
+			try {
+				System.in.read(inputBuffer,0,bufferSize);
+			} catch (IOException e1) {
+				play = false;
+				e1.printStackTrace();
+			}
 			
 			try{
 				int size = Integer.parseInt(new String(inputBuffer));
 				thePlayBoard = new TicTacToeBoard(size);
 				play = false;
-			}catch(NumberFormatException e){
+//			}catch(NumberFormatException e){
+			} catch (Exception e) {
 				System.out.println("YOu did not enter anything the systems could interpret as a number!");
+				e.printStackTrace();
 			}
 		}
 		play = continuePlay;
 		while(play){
 			System.out.println("Do you want to be an X or an O?");
-			System.in.read(inputBuffer,0,bufferSize);
-			String inputString = new String(inputBuffer);
+			try {
+				System.in.read(inputBuffer,0,bufferSize);
+			} catch (IOException e1) {
+				play = false;
+				e1.printStackTrace();
+			}
+				
+//			String inputString = new String(inputBuffer);
 			StringTokenizer startToken = new StringTokenizer(new String(inputBuffer));
 			if(startToken.equals("^C")){
 				play = false;
 				continuePlay = false;
+			}
 			if(startToken.equals("X")){
 				play = false;
 				valueOfPlayer = TicTacToeValue.X;
@@ -235,7 +247,6 @@ public class App {
 						System.out.println("Result so far is: " + results.ToString());
 						if(results == TicTacToeResults.WinnerX || results == TicTacToeResults.WinnerO)
 							play = false;
-						// now the computer will make a move:
 						valueToMatch = valueOfMachine;
 						if(thePlayBoard.findMove(valueToMatch,x,y)){
 							System.out.println("The system wants to apply " + valueToMatch + " to the cell: " + x + "," + y);

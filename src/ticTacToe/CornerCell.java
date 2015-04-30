@@ -1,4 +1,4 @@
-package TicTacToe;
+package ticTacToe;
 
 public abstract class CornerCell extends TicTacToeCell {
 	private int countForAcross = 0;
@@ -40,9 +40,11 @@ public abstract class CornerCell extends TicTacToeCell {
 			int result = 0;
 			switch(direction){
 			case EastWest:
+			case WestEast:
 				result = countForAcross;
 				break;
 			case NorthSouth:
+			case SouthNorth:
 				result = countForDown;
 				break;
 			case DiagonalPlus:
@@ -56,9 +58,11 @@ public abstract class CornerCell extends TicTacToeCell {
 	public void incrementCount(TicTacToeDirection direction){
 		switch(direction){
 		case EastWest:
+		case WestEast:
 			countForAcross++;
 			break;
 		case NorthSouth:
+		case SouthNorth:
 			countForDown++;
 			break;
 		case DiagonalPlus:

@@ -1,6 +1,5 @@
 package ticTacToe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TicTacToeEchelon {
@@ -14,14 +13,17 @@ public class TicTacToeEchelon {
 	
 	private int count;
 	
-	TicTacToeEchelon(TicTacToeDirection direction,int size){
+	TicTacToeEchelon(TicTacToeDirection direction,int size,List<TicTacToeCell> list){
 		this.direction = direction;
 		this.value = TicTacToeValue.B;
 		this.size = size;
-		this.echelon = new ArrayList<TicTacToeCell>();
+		setList(list);
 	}
-	public List<TicTacToecell> getList(){
+	public List<TicTacToeCell> getList(){
 		return echelon;
+	}
+	public void setList(List<TicTacToeCell> list){
+		this.echelon = list;
 	}
 	
 	public int getCount(){

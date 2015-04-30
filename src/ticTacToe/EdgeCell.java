@@ -1,6 +1,5 @@
-package TicTacToe;
+package ticTacToe;
 
-import java.util.Collection;
 
 abstract public class EdgeCell extends TicTacToeCell {
 

@@ -1,4 +1,4 @@
-package TicTacToe;
+package ticTacToe;
 
 //import com.sun.xml.internal.bind.v2.model.core.EnumConstant;
 

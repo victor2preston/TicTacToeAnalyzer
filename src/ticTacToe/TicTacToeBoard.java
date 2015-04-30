@@ -2,17 +2,10 @@
 
 package ticTacToe;
 
-//import java.util.stream.*;
+import java.util.stream.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 
 
@@ -121,10 +114,28 @@ public class TicTacToeBoard {
 	}
 	//Add an echelon for each possible row, column, or diagonal
 	private void makeEchelonList(int size){
-		board.stream().forEach(row -> echelons.add( new TicTacToeEchelon(TicTacToeDirection.EastWest,size)));
-		board.stream().flatMap(row -> row.stream()).filter(cell -> cell.getLocation().getElement0() == 0).forEach(row -> echelons.add( new TicTacToeEchelon(TicTacToeDirection.NorthSouth,size)));
-		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalPlus,size));
-		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalMinus,size));
+		board.stream().forEach(row -> {
+			TicTacToeEchelon newEchelon = new TicTacToeEchelon(TicTacToeDirection.EastWest,size,row);
+			echelons.add(newEchelon);
+		});
+//		board.stream()
+//			.flatMap(row -> row.stream())
+//			.filter(cell -> cell.getLocation().getElement1() == 0) //streams only the cells along the top rank (i.e., with y == 0)
+		IntStream.range(0, size).forEach( i -> {
+					ArrayList<TicTacToeCell> verticalList = new ArrayList<TicTacToeCell>();
+					IntStream.range(0, size).forEach(j -> verticalList.add(this.getCell(i, i)));
+					echelons.add( new TicTacToeEchelon(TicTacToeDirection.NorthSouth,size,verticalList));
+				});
+		ArrayList<TicTacToeCell> diagonalList = new ArrayList<TicTacToeCell>();
+		IntStream.range(0, size).forEach(i -> {
+				diagonalList.add(this.getCell(i,i));
+		});	
+		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalPlus,size,diagonalList));
+		ArrayList<TicTacToeCell> reverseDiagonalList = new ArrayList<TicTacToeCell>();
+		IntStream.range(0, size).forEach(i -> {
+			reverseDiagonalList .add(this.getCell(i,size - i));
+		});	
+		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalMinus,size,reverseDiagonalList ));
 	}
 	public List<TicTacToeEchelon> getEchelonList(){
 		return echelons;
@@ -220,7 +231,6 @@ public class TicTacToeBoard {
 					.filter(echelon -> echelon.matches(valueToMatch))
 					.reduce((echelon1,echelon2) -> echelon1.getCount() > echelon2.getCount() ? echelon1 : echelon2);
 			if(matchingEchelonWithHighestCount.isPresent()){
-				matchingEchelonWithHighestCount.get().
 				x = matchingEchelonWithHighestCount.get().getLocation().getElement0();
 				y = matchingEchelonWithHighestCount.get().getLocation().getElement1();
 			}else{

@@ -1,4 +1,4 @@
-package TicTacToe;
+package ticTacToe;
 
 public interface LikeFinder {
 	

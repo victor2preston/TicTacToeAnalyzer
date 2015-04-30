@@ -1,4 +1,4 @@
-package TicTacToe;
+package ticTacToe;
 
 public enum TicTacToeMaxSize {
 	MaxSize(1000);

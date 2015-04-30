@@ -1,6 +1,6 @@
-package TicTacToe;
+package ticTacToe;
 
-import java.util.Collection;
+import java.util.List;
 
 public class LeftEdgeCell extends EdgeCell{
 	
@@ -30,7 +30,7 @@ public class LeftEdgeCell extends EdgeCell{
 		return super.fnGetEntries();
 		
 	}
-	public Collection<TicTacToeCell> makeLikeCollection(Collection<TicTacToeCell> collection, TicTacToeValue valueToMatch){
-		return makeLikeCollection(TicTacToeDirection.EastWest,collection,valueToMatch);
+	public List<TicTacToeCell> makeLikeList(List<TicTacToeCell> list, TicTacToeValue valueToMatch){
+		return makeLikeList(list, TicTacToeDirection.EastWest,valueToMatch);
 	}
 }

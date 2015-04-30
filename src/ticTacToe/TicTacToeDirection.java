@@ -1,4 +1,4 @@
-package TicTacToe;
+package ticTacToe;
 
 public enum TicTacToeDirection {
 	EastWest(0),

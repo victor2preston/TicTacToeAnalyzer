@@ -1,6 +1,7 @@
-package TicTacToe;
+package ticTacToe;
 
-import java.util.Collection;
+import java.util.List;
+
 
 public class LeftCornerCell extends CornerCell{
 	
@@ -41,8 +42,8 @@ public class LeftCornerCell extends CornerCell{
 		addLikeEntry(TicTacToeDirection.DiagonalPlus,this);
 		return super.fnGetEntries();
 	}
-	public Collection<TicTacToeCell> makeLikeCollection(Collection<TicTacToeCell> collection, TicTacToeValue valueToMatch){
-		return makeLikeCollection(collection,TicTacToeDirection.DiagonalPlus,valueToMatch);
+	public List<TicTacToeCell> makeLikeList(List<TicTacToeCell> list, TicTacToeValue valueToMatch){
+		return makeLikeList(list,TicTacToeDirection.DiagonalPlus,valueToMatch);
 	}
 
 }
