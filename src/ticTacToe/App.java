@@ -1,11 +1,13 @@
 package ticTacToe;
-
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class App {
 	static int bufferSize = 1024;
 	static byte[] inputBuffer = new byte[bufferSize];
+	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static TicTacToeValue valueOfPlayer = TicTacToeValue.B;
 	static TicTacToeValue valueOfMachine = TicTacToeValue.B;
 	static TicTacToeBoard thePlayBoard;
@@ -143,12 +145,13 @@ public class App {
 		
 	}
 	// returns true if the user types in a ^C, meaning they want to stop!
-	public static boolean parseInputBuffer(TicTacToeValue value, int x, int y){
+	public static boolean parseInputString(String inputString,TicTacToeValue value, int x, int y){
 		try{
 			boolean doLeave = false;
-			StringTokenizer inputTokens = new StringTokenizer(new String(inputBuffer));
-			if(inputTokens.countTokens() >= 3){ // If there are 3 or more tokens, interpret the first one as the symbol to use, then get x & y, ignore the rest.
-				String firstToken =  inputTokens.nextToken();
+			StringTokenizer tokens = new StringTokenizer(inputString);
+			System.out.println(tokens.countTokens());
+			if(tokens.countTokens() >= 3){ // If there are 3 or more tokens, interpret the first one as the symbol to use, then get x & y, ignore the rest.
+				String firstToken =  tokens.nextToken();
 				switch (firstToken) {
 					case "O":
 					case "o":
@@ -169,9 +172,9 @@ public class App {
 				}
 				if(doLeave)
 					return true;
-				if(inputTokens.countTokens() >=2){ // If there are only 2 tokens, interpret them as x & y
-					x = Integer.parseInt(inputTokens.nextToken());
-					y = Integer.parseInt(inputTokens.nextToken());
+				if(tokens.countTokens() >=2){ // If there are only 2 tokens, interpret them as x & y
+					x = Integer.parseInt(tokens.nextToken());
+					y = Integer.parseInt(tokens.nextToken());
 				}
 			}
 		}
@@ -186,19 +189,15 @@ public class App {
 		while(play){
 			System.out.println("What size board do you want to play on (choose a number between 4 and 1000)?");
 			try {
-				System.in.read(inputBuffer,0,bufferSize);
-			} catch (IOException e1) {
-				play = false;
-				e1.printStackTrace();
-			}
+				String inputString = input.readLine();
+				//System.in.read(inputBuffer,0,bufferSize);
 			
-			try{
-				int size = Integer.parseInt(new String(inputBuffer));
-				thePlayBoard = new TicTacToeBoard(size);
-				play = false;
-//			}catch(NumberFormatException e){
+					int size = Integer.parseInt(inputString); //new String(inputBuffer));
+					thePlayBoard = new TicTacToeBoard(size);
+					play = false;
 			} catch (Exception e) {
-				System.out.println("YOu did not enter anything the systems could interpret as a number!");
+				System.out.println(e.getMessage());
+				System.out.println("You did not enter anything the systems could interpret as a number!");
 				e.printStackTrace();
 			}
 		}
@@ -206,38 +205,47 @@ public class App {
 		while(play){
 			System.out.println("Do you want to be an X or an O?");
 			try {
-				System.in.read(inputBuffer,0,bufferSize);
-			} catch (IOException e1) {
+				String inputString = input.readLine();
+				//System.in.read(inputBuffer,0,bufferSize);
+				
+				StringTokenizer token = new StringTokenizer(inputString);
+				if(token.hasMoreTokens()){
+					switch (token.nextToken()){
+					case "^C":
+					case "^c":
+						play = false;
+						continuePlay = false;
+						break;
+					case "X":
+					case "x":
+						play = false;
+						valueOfPlayer = TicTacToeValue.X;
+						valueOfMachine = TicTacToeValue.O;
+						break;
+					case "O":
+					case "o":
+						valueOfPlayer = TicTacToeValue.O;
+						valueOfMachine = TicTacToeValue.X;
+						break;
+					default:
+						System.out.println("not a possible entry, Try again");
+}
+				}
+			} catch (Exception e1) {
 				play = false;
 				e1.printStackTrace();
-			}
-				
-//			String inputString = new String(inputBuffer);
-			StringTokenizer startToken = new StringTokenizer(new String(inputBuffer));
-			if(startToken.equals("^C")){
-				play = false;
-				continuePlay = false;
-			}
-			if(startToken.equals("X")){
-				play = false;
-				valueOfPlayer = TicTacToeValue.X;
-				valueOfMachine = TicTacToeValue.O;
-			}
-			else if(startToken.equals("O")){
-				play = false;
-				valueOfPlayer = TicTacToeValue.O;
-				valueOfMachine = TicTacToeValue.X;
 			}
 		}
 
 		play = continuePlay;
 		while(play){
 			try {
-				System.in.read(inputBuffer,0,bufferSize);
+				String inputString2 = input.readLine();
+				//System.in.read(inputBuffer,0,bufferSize);
 				TicTacToeValue valueToMatch = valueOfPlayer;
 				int x = 0;
 				int y = 0;
-				if(parseInputBuffer(valueToMatch,x,y)){
+				if(!parseInputString(inputString2,valueToMatch,x,y)){
 					play = false;
 					break;
 				}

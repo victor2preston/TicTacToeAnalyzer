@@ -70,7 +70,7 @@ public class TicTacToeBoard {
 	//These arrays contain the "state" of each possible winning row, column, or one of the two diagonals,
 	//
 //	private ArrayList<State> rowState;
-	private ArrayList<TicTacToeEchelon> echelons; //the entire list of all possible rows, columns and diagonals 
+	private List<TicTacToeEchelon> echelons; //the entire list of all possible rows, columns and diagonals 
 	
 	
 //	private ArrayList<Integer> rowState;
@@ -114,13 +114,13 @@ public class TicTacToeBoard {
 	}
 	//Add an echelon for each possible row, column, or diagonal
 	private void makeEchelonList(int size){
+
+		echelons = new ArrayList<TicTacToeEchelon>();
 		board.stream().forEach(row -> {
 			TicTacToeEchelon newEchelon = new TicTacToeEchelon(TicTacToeDirection.EastWest,size,row);
 			echelons.add(newEchelon);
 		});
-//		board.stream()
-//			.flatMap(row -> row.stream())
-//			.filter(cell -> cell.getLocation().getElement1() == 0) //streams only the cells along the top rank (i.e., with y == 0)
+
 		IntStream.range(0, size).forEach( i -> {
 					ArrayList<TicTacToeCell> verticalList = new ArrayList<TicTacToeCell>();
 					IntStream.range(0, size).forEach(j -> verticalList.add(this.getCell(i, i)));
@@ -133,7 +133,7 @@ public class TicTacToeBoard {
 		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalPlus,size,diagonalList));
 		ArrayList<TicTacToeCell> reverseDiagonalList = new ArrayList<TicTacToeCell>();
 		IntStream.range(0, size).forEach(i -> {
-			reverseDiagonalList .add(this.getCell(i,size - i));
+			reverseDiagonalList .add(this.getCell(i,(size - 1) - i));
 		});	
 		echelons.add( new TicTacToeEchelon(TicTacToeDirection.DiagonalMinus,size,reverseDiagonalList ));
 	}
